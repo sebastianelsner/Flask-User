@@ -476,10 +476,13 @@ class UserManager__Views(object):
             request_email_confirmation = self.USER_ENABLE_CONFIRM_EMAIL
             # Users that register through an invitation, can skip this process
             # but only when they register with an email that matches their invitation.
-            if user_invitation:
-                if user_invitation.email.lower() == register_form.email.data.lower():
-                    user_email.email_confirmed_at=datetime.utcnow()
-                    request_email_confirmation = False
+            if (
+                user_invitation
+                and user_invitation.email.lower()
+                == register_form.email.data.lower()
+            ):
+                user_email.email_confirmed_at=datetime.utcnow()
+                request_email_confirmation = False
 
             self.db_manager.save_user_and_user_email(user, user_email)
             self.db_manager.commit()

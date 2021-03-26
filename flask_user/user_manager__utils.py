@@ -68,8 +68,7 @@ class UserManager__Utils(object):
         # Clear scheme and netloc and rebuild URL
         parts[0] = ''   # Empty scheme
         parts[1] = ''   # Empty netloc (hostname:port)
-        safe_url = urlunsplit(parts)
-        return safe_url
+        return urlunsplit(parts)
 
     def prepare_domain_translations(self):
         """Set domain_translations for current request context."""

@@ -24,12 +24,11 @@ class UserMixin(FlaskLoginUserMixin):
 
         user_id = self.id
         password_ends_with = '' if user_manager.USER_ENABLE_AUTH0 else self.password[-8:]
-        user_token = user_manager.generate_token(
+        # print("UserMixin.get_id: ID:", self.id, "token:", user_token)
+        return user_manager.generate_token(
             user_id,               # User ID
             password_ends_with,    # Last 8 characters of user password
         )
-        # print("UserMixin.get_id: ID:", self.id, "token:", user_token)
-        return user_token
 
     @classmethod
     def get_user_by_token(cls, token, expiration_in_seconds=None):
@@ -83,19 +82,15 @@ class UserMixin(FlaskLoginUserMixin):
             if isinstance(requirement, (list, tuple)):
                 # this is a tuple_of_role_names requirement
                 tuple_of_role_names = requirement
-                authorized = False
-                for role_name in tuple_of_role_names:
-                    if role_name in role_names:
                         # tuple_of_role_names requirement was met: break out of loop
-                        authorized = True
-                        break
+                authorized = any(role_name in role_names for role_name in tuple_of_role_names)
                 if not authorized:
                     return False                    # tuple_of_role_names requirement failed: return False
             else:
                 # this is a role_name requirement
                 role_name = requirement
                 # the user must have this role
-                if not role_name in role_names:
+                if role_name not in role_names:
                     return False                    # role_name requirement failed: return False
 
         # All requirements have been met: return True

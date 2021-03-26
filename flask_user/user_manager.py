@@ -127,8 +127,7 @@ class UserManager(UserManager__Settings, UserManager__Utils, UserManager__Views)
         # Flask-Login calls this function to retrieve a User record by token.
         @self.login_manager.user_loader
         def load_user_by_user_token(user_token):
-            user = self.db_manager.UserClass.get_user_by_token(user_token)
-            return user
+            return self.db_manager.UserClass.get_user_by_token(user_token)
 
         # Configure Flask-BabelEx
         # -----------------------

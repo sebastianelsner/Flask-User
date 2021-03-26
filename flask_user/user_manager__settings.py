@@ -1,12 +1,15 @@
 """This module defines UserManager settings and their defaults.
 """
 
+
+
 # Author: Ling Thio <ling.thio@gmail.com>
 # Copyright (c) 2013 Ling Thio
 
 # This class mixes into the UserManager class.
 # Mixins allow for maintaining code and docs across several files.
-class UserManager__Settings(object):
+
+class UserManager__Settings((object)):
     """Flask-User settings and their defaults.
 
     .. This hack shows a header above the _next_ section
@@ -181,7 +184,7 @@ class UserManager__Settings(object):
     #:
     #: .. This hack shows a header above the _next_ section
     #:     URL settings
-    USER_PASSLIB_CRYPTCONTEXT_KEYWORDS = dict()
+    USER_PASSLIB_CRYPTCONTEXT_KEYWORDS = {}
 
     USER_CHANGE_PASSWORD_URL = '/user/change-password' #:
     USER_CHANGE_USERNAME_URL = '/user/change-username' #:
