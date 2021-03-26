@@ -49,8 +49,7 @@ def create_app(test_config=None):                   # For automated tests
     @babel.localeselector
     def get_locale():
         translations = [str(translation) for translation in babel.list_translations()]
-        language = request.accept_languages.best_match(translations)
-        return language
+        return request.accept_languages.best_match(translations)
 
     # Define the User data-model. Make sure to add flask_user UserMixin !!!
     class User(db.Model, UserMixin):
@@ -114,11 +113,6 @@ def create_app(test_config=None):                   # For automated tests
                 {% endif %}
             {% endblock %}
             """)
-        user_manager = current_app.user_manager
-        if user_manager.call_or_get(current_user.is_authenticated):
-            return redirect(url_for('user_profile_page'))
-        else:
-            return redirect(url_for('user.login'))
 
     # The Profile page requires a logged-in user
     @app.route('/user/profiles')

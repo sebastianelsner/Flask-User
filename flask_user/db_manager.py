@@ -139,18 +139,16 @@ class DBManager(object):
 
     def find_user_emails(self, user):
         """Find all the UserEmail object belonging to a user."""
-        user_emails = self.db_adapter.find_objects(self.UserEmailClass, user_id=user.id)
-        return user_emails
+        return self.db_adapter.find_objects(self.UserEmailClass, user_id=user.id)
 
     def get_primary_user_email_object(self, user):
         """Retrieve the email from User object or the primary UserEmail object (if multiple emails
         per user are enabled)."""
         if self.UserEmailClass:
-            user_email = self.db_adapter.find_first_object(
+            return self.db_adapter.find_first_object(
                 self.UserEmailClass,
                 user_id=user.id,
                 is_primary=True)
-            return user_email
         else:
             return user
 
@@ -248,9 +246,11 @@ class DBManager(object):
         """
 
         # Return True if new_username equals current user's username
-        if self.user_manager.call_or_get(current_user.is_authenticated):
-            if new_username == current_user.username:
-                return True
+        if (
+            self.user_manager.call_or_get(current_user.is_authenticated)
+            and new_username == current_user.username
+        ):
+            return True
 
         # Return True if new_username does not exist,
         # Return False otherwise.

@@ -73,8 +73,7 @@ class TokenManager(object):
             token = token_manager.generate_token(user_id, password_ends_with)
         """
         concatenated_str = self.encode_data_items(*args)
-        token = self.encrypt_string(concatenated_str)
-        return token
+        return self.encrypt_string(concatenated_str)
 
     def verify_token(self, token, expiration_in_seconds=None):
         """ Verify token signature, verify token expiration, and decrypt token.
@@ -140,9 +139,7 @@ class TokenManager(object):
 
         # Verify signature, verify expiration, and decrypt using ``cryptography.fernet.Fernet()``
         concatenated_bytes = self.fernet.decrypt(encrypted_bytes, expiration_in_seconds)
-        concatenated_str = concatenated_bytes.decode('utf-8')
-
-        return concatenated_str
+        return concatenated_bytes.decode('utf-8')
 
     def encode_data_items(self, *args):
         """ Encodes a list of integers and strings into a concatenated string.

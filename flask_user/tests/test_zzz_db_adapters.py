@@ -78,14 +78,14 @@ def test_mongoengine_db_adapter(app):
     db_manager.delete_object(user1)
     db_manager.commit()
     user = db_manager.get_user_by_id(user1_id)
-    assert user==None
+    assert user is None
     user = db_manager.get_user_by_id(user2.id)
     assert user==user2
 
     # Test drop_all_tables
     db_manager.drop_all_tables()
     user = db_manager.get_user_by_id(user2.id)
-    assert user==None
+    assert user is None
 
 
 

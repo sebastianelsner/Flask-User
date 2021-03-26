@@ -75,9 +75,7 @@ class MongoDbAdapter(DbAdapterInterface):
             return self.find_first_object(ObjectClass, **kwargs)
 
         # Convert ...(email=value) to ...(email__iexact=value)
-        iexact_kwargs = {}
-        for key, value in kwargs.items():
-            iexact_kwargs[key+'__iexact'] = value
+        iexact_kwargs = {key+'__iexact': value for key, value in kwargs.items()}
         # Retrieve first object -- case insensitive
         return ObjectClass.objects(**iexact_kwargs).first()
 
